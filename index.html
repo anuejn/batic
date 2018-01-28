@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>batic</title>
+    <link rel="shortcut icon" href="res/logo.png">
+
+    <!-- main js logic -->
+    <script src="lib/tarp-require/require.js"></script>
+    <script>
+        Tarp.require("./index.js", true);
+    </script>
+
+    <!-- pan/zoom logic -->
+    <script src="lib/panzoom.min.js"></script>
+    <script>
+        onload = () => {
+            let scene = document.getElementById("canvas");
+            console.log(scene)
+            panzoom(scene)
+        };
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        
+        body {
+            background: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        main {
+            padding-right: 500px;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        main > canvas {
+            width: 100%;
+        }
+
+        aside {
+            padding: 50px;
+            position: fixed;
+            right: 0;
+            top: 0;
+
+            width: 500px;
+            height: 100vh;
+
+            background: #fff;
+            z-index: 10;
+
+            overflow-y: auto;
+        }
+
+        input[type=range] {
+            width: 100%;
+            height: 20px;
+        }
+
+        label {
+            display: block;
+            padding-bottom: 20px;
+        }
+
+        pre {
+            padding-top: 50px;
+            color: darkred;
+            white-space: pre-wrap;
+        }
+
+        textarea {
+            width: 100%;
+            height: 500px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <aside>
+        <h1>batic</h1>
+
+        <div id="controls">
+            <!-- this is the place for the controls of the shader -->
+        </div>
+        <textarea id="code"></textarea>
+        <pre id="errors">
+            <!-- this is the place for the compiler errors of the shader -->
+        </pre>
+    </aside>
+    <main>
+        <canvas id="canvas"></canvas>
+    </main>
+</body>
+</html>
