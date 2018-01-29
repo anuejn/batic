@@ -16,4 +16,3 @@ And reading the example debayering code.
 
 The demo image is provided by the apertus project and taken on the AXIOM Beta.
 
-
