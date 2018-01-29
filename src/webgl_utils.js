@@ -8,15 +8,25 @@ module.exports = new class webgl_utils {
         gl.shaderSource(shader, source);
         gl.compileShader(shader);
         var success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-        if (success) {
-            return shader;
+
+        if ( !gl.getShaderParameter(shader, gl.COMPILE_STATUS) ) {
+            document.getElementById("errors").innerHTML = gl.getShaderInfoLog(shader);
+        } else {
+            document.getElementById("errors").innerHTML = "";
         }
 
-        document.getElementById("errors").innerHTML = gl.getShaderInfoLog(shader);
-        gl.deleteShader(shader);
+        if (success) {
+            return shader;
+        } else {
+            gl.deleteShader(shader);
+            return null;
+        }
     }
 
     createProgram(gl, vertexShader, fragmentShader) {
+        if(!fragmentShader) {
+            return null;
+        }
         var program = gl.createProgram();
         gl.attachShader(program, vertexShader);
         gl.attachShader(program, fragmentShader);

@@ -10,46 +10,52 @@ let webgl_util = require('./webgl_utils');
 const size = {x: 4096, y: 3072};
 
 
-main();
+window.addEventListener("load", main);
 async function main() {
-    const shader = await loaders.loadText("shaders/simple.glsl");
-    const raw_image = await loaders.loadRaw16("res/example.raw16");
+    const shader = await loaders.loadText("examples/shaders/resolution_loss.glsl");
+    const raw_image = await loaders.loadRaw16("examples/images/human.raw16");
 
-    let code = document.getElementById("code");
-    code.value = shader;
-    code.oninput = () => {
-        generate_sliders(code.value);
-        setup(code.value, raw_image, size)
+
+    window.code.setValue(shader, -1);
+
+    let redo = () => {
+        generate_sliders(window.code.getSession().getValue());
+        setup(window.code.getSession().getValue(), raw_image, size)
     };
+    window.code.getSession().on('change', () => setTimeout(redo, 10)); // the setTimeout is for not slowing the editor down or throwing errors from the event handler
 
-    generate_sliders(shader);
-    setup(shader, raw_image, size);
+    document.getElementById("loading").style.display = "none";
+    redo();
 }
 
 function generate_sliders(src) {
     let sliders = "";
+    let slider_values = get_slider_values();
     src.replace(/uniform float (.*);/g, (_, x) => {sliders += `<label>${x} <input type="range" min="0" max="1" value="0.5" step="0.000001" class="slider" id="slider_${x}"></label>\n`});
     document.querySelector("#controls").innerHTML = sliders;
-
+    Object.keys(slider_values).forEach(name => {
+        document.getElementById("slider_" + name).value = slider_values[name];
+    });
     Array.from(document.getElementsByTagName("input")).forEach(s => s.oninput = render)
 }
 
 function get_slider_values() {
     let slider_values = {};
     Array.from(document.getElementsByTagName("input")).forEach(slider => {
-        console.log(slider);
         slider_values[slider.id.replace("slider_", "")] = parseFloat(slider.value);
     });
     return slider_values;
 }
 
+
+// the rendering section
 let gl, program;
 function setup(fragment_shader_code, raw_image, canvas_size) {
     // initialize webgl
     let canvas = document.getElementById("canvas");
     gl = canvas.getContext('webgl2');
 
-    // define the code for the shaders
+    // define the code for the examples
     let vertex_shader_code =
         `#version 300 es
         in vec2 position;
@@ -59,11 +65,14 @@ function setup(fragment_shader_code, raw_image, canvas_size) {
         }`;
 
 
-    // compile the shaders & the program
+    // compile the examples & the program
     let vs = webgl_util.createShader(gl, gl.VERTEX_SHADER, vertex_shader_code);
     let fs = webgl_util.createShader(gl, gl.FRAGMENT_SHADER, fragment_shader_code);
 
     program = webgl_util.createProgram(gl, vs, fs);
+    if(!program) {
+        return;
+    }
 
 
     // draw the base square
