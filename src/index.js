@@ -12,7 +12,7 @@ const size = {x: 4096, y: 3072};
 
 main();
 async function main() {
-    const shader = await loaders.loadText("examples/shaders/resolution_loss.glsl");
+    const shader = await loaders.loadText("examples/shaders/black_white.glsl");
     const raw_image = await loaders.loadRaw16("examples/images/human.raw16");
 
 
