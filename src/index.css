@@ -56,9 +56,10 @@ aside {
     overflow-y: auto;
 }
 
-aside:hover {
+main:not(:hover) ~ aside {
     right: 0;
 }
+
 
 h1 {
     padding-bottom: 20px;

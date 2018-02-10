@@ -19,7 +19,7 @@ async function main() {
     window.code.setValue(shader, -1);
 
     let redo = () => {
-        generate_sliders(window.code.getSession().getValue());
+        generate_inputs(window.code.getSession().getValue());
         setup(window.code.getSession().getValue(), raw_image, size)
     };
     window.code.getSession().on('change', () => setTimeout(redo, 10)); // the setTimeout is for not slowing the editor down or throwing errors from the event handler
@@ -28,23 +28,23 @@ async function main() {
     redo();
 }
 
-function generate_sliders(src) {
-    let sliders = "";
-    let slider_values = get_slider_values();
-    src.replace(/uniform float (.*);/g, (_, x) => {sliders += `<label>${x} <input type="range" min="0" max="1" value="0.5" step="0.000001" class="slider" id="slider_${x}"></label>\n`});
-    document.querySelector("#controls").innerHTML = sliders;
-    Object.keys(slider_values).forEach(name => {
-        document.getElementById("slider_" + name).value = slider_values[name];
+function generate_inputs(src) {
+    let inputs = "";
+    let input_values = get_inputs_values();
+    src.replace(/uniform float (.*);/g, (_, x) => {inputs += `<label>${x} <input type="range" min="0" max="1" value="0.5" step="0.000001" class="slider" id="slider_${x}"></label>\n`});
+    document.querySelector("#controls").innerHTML = inputs;
+    Object.keys(input_values).forEach(name => {
+        document.getElementById("input_" + name).value = input_values[name];
     });
     Array.from(document.getElementsByTagName("input")).forEach(s => s.oninput = render)
 }
 
-function get_slider_values() {
-    let slider_values = {};
+function get_inputs_values() {
+    let input_values = {};
     Array.from(document.getElementsByTagName("input")).forEach(slider => {
-        slider_values[slider.id.replace("slider_", "")] = parseFloat(slider.value);
+        input_values[slider.id.replace("input_", "")] = parseFloat(slider.value);
     });
-    return slider_values;
+    return input_values;
 }
 
 
@@ -123,7 +123,7 @@ function setup(fragment_shader_code, raw_image, canvas_size) {
 
 function render() {
     // set up the params
-    let vals = get_slider_values();
+    let vals = get_inputs_values();
     Object.keys(vals).forEach(val_name => {
         gl.useProgram(program);
         let loc = gl.getUniformLocation(program, val_name);

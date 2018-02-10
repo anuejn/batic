@@ -18,7 +18,9 @@
     <script>
         window.addEventListener("load", () => {
             let scene = document.getElementById("canvas");
-            panzoom(scene)
+            panzoom(scene, {
+                smoothScroll: true
+            })
         });
     </script>
 
@@ -47,6 +49,10 @@
     </div>
 
     <!-- everything below this line will only be visible when everything is set up by the js -->
+    <main>
+        <canvas id="canvas"></canvas>
+    </main>
+
     <aside>
         <h1>### BATIC </h1>
         <a href="https://github.com/anuejn/batic" style="position: absolute; right: 20px; top: 40px;">(WHATS THIS?!)</a>
@@ -59,8 +65,5 @@
             <!-- this is the place for the compiler errors of the shader -->
         </pre>
     </aside>
-    <main>
-        <canvas id="canvas"></canvas>
-    </main>
 </body>
 </html>
