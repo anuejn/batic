@@ -31,7 +31,7 @@ async function main() {
 function generate_inputs(src) {
     let inputs = "";
     let input_values = get_inputs_values();
-    src.replace(/uniform float (.*);/g, (_, x) => {inputs += `<label>${x} <input type="range" min="0" max="1" value="0.5" step="0.000001" class="slider" id="slider_${x}"></label>\n`});
+    src.replace(/uniform float (.*);/g, (_, x) => {inputs += `<label>${x} <input type="range" min="0" max="1" value="0.5" step="0.000001" class="slider" id="input_${x}"></label>\n`});
     document.querySelector("#controls").innerHTML = inputs;
     Object.keys(input_values).forEach(name => {
         document.getElementById("input_" + name).value = input_values[name];
