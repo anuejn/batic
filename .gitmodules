@@ -5,3 +5,6 @@
 [submodule "lib/ace-builds"]
 	path = lib/ace-builds
 	url = https://github.com/ajaxorg/ace-builds/
+[submodule "lib/ace"]
+	path = lib/ace
+	url = https://github.com/ajaxorg/ace

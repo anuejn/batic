@@ -74,7 +74,7 @@ label {
     padding-bottom: 20px;
 }
 
-input[type=range] {
+input {
     width: 80%;
     position: absolute;
     right: 0;

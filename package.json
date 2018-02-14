@@ -1,0 +1,23 @@
+{
+  "name": "batic",
+  "version": "1.0.0",
+  "description": "play with debayering algorithms using webgl and glsl.",
+  "main": "index.js",
+  "repository": "git@github.com:anuejn/batic.git",
+  "author": "jaro <jarohabiger@googlemail.com>",
+  "license": "AGPL-3.0",
+  "scripts": {
+    "start": "parcel index.html"
+  },
+  "dependencies": {
+    "ace": "^1.3.0",
+    "babel-preset-env": "^1.6.1",
+    "panzoom": "^4.1.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "babel-preset-react-app": "^3.1.1",
+    "parcel-bundler": "^1.5.1"
+  }
+}

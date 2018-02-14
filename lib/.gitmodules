@@ -1,4 +1,0 @@
-[submodule "tarp-require"]
-	path = tarp-require
-	url = https://github.com/letorbi/smoothie.git
-	branch = tarp

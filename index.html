@@ -6,64 +6,10 @@
     <link rel="shortcut icon" href="res/logo.png">
 
     <!-- main logic -->
-    <script src="lib/tarp-require/require.js"></script>
-    <link rel="stylesheet" href="src/index.css">
-    <script>
-            Tarp.require("./src/index.js", true);
-    </script>
-
-
-    <!-- pan/zoom logic -->
-    <script src="lib/panzoom/panzoom.min.js"></script>
-    <script>
-        window.addEventListener("load", () => {
-            let scene = document.getElementById("canvas");
-            panzoom(scene, {
-                smoothScroll: true
-            })
-        });
-    </script>
-
-
-    <!-- code editor logic -->
-    <script src="lib/ace-builds/src-noconflict/ace.js"></script>
-    <script src="lib/ace-builds/src-noconflict/ext-language_tools.js"></script>
-    <script>
-        window.addEventListener("load", () => {
-            window.code = ace.edit("code");
-            window.code.session.setMode("ace/mode/glsl");
-            ace.require("ace/ext/language_tools");
-            window.code.setOptions({
-                enableBasicAutocompletion: true,
-                enableSnippets: true,
-                enableLiveAutocompletion: true
-            });
-        });
-    </script>
+    <script src="src/index.js"></script>
 
 </head>
 <body>
-    <!-- the loading div will be set to display: none when everything is loaded -->
-    <div id="loading">
-        LOADING...
-    </div>
-
-    <!-- everything below this line will only be visible when everything is set up by the js -->
-    <main>
-        <canvas id="canvas"></canvas>
-    </main>
-
-    <aside>
-        <h1>### BATIC </h1>
-        <a href="https://github.com/anuejn/batic" style="position: absolute; right: 20px; top: 40px;">(WHATS THIS?!)</a>
-
-        <div id="controls">
-            <!-- this is the place for the controls of the shader -->
-        </div>
-        <div id="code"></div>
-        <pre id="errors">
-            <!-- this is the place for the compiler errors of the shader -->
-        </pre>
-    </aside>
+    <div id="react"></div>
 </body>
 </html>

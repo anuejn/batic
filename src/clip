@@ -1,0 +1,59 @@
+
+
+const size = {x: 4096, y: 3072};
+
+
+const fsr = new FragmentShaderRenderer(document.querySelector("#canvas"), {size: size});
+async function main() {
+    const shader = await loaders.loadText("examples/shaders/black_white.glsl");
+    const raw_image = await loaders.loadRaw16("examples/images/human.raw16");
+
+
+    window.code.setValue(shader, -1);
+
+    let redo = () => {
+        generate_inputs(window.code.getSession().getValue());
+        setup(window.code.getSession().getValue(), raw_image, size)
+    };
+    window.code.getSession().on('change', () => setTimeout(redo, 10)); // the setTimeout is for not slowing the editor down or throwing errors from the event handler
+
+    document.getElementById("loading").style.display = "none";
+    redo();
+}
+
+function generate_inputs(src) {
+    let inputs = "";
+    let input_values = get_inputs_values();
+    src.replace(/uniform float (.*);/g, (_, x) => {inputs += `<label>${x} <input type="range" min="0" max="1" value="0.5" step="0.000001" class="slider" id="slider_${x}"></label>\n`});
+    document.querySelector("#controls").innerHTML = inputs;
+    Object.keys(input_values).forEach(name => {
+        document.getElementById("input_" + name).value = input_values[name];
+    });
+    Array.from(document.getElementsByTagName("input")).forEach(s => s.oninput = () => {
+        let vals = get_inputs_values();
+        Object.keys(vals).forEach(val_name => {
+            fsr.setUniform(val_name, 'uniform1f', vals[val_name]);
+        });
+        fsr.render();
+    })
+}
+
+function get_inputs_values() {
+    let input_values = {};
+    Array.from(document.getElementsByTagName("input")).forEach(slider => {
+        input_values[slider.id.replace("input_", "")] = parseFloat(slider.value);
+    });
+    return input_values;
+}
+
+
+function setup(fragment_shader_code, raw_image, canvas_size) {
+    fsr.setFragmentShader(fragment_shader_code);
+    fsr.setTexture2D("", raw_image, canvas_size, {
+        TEXTURE_MAG_FILTER: 'NEAREST',
+        TEXTURE_MIN_FILTER: 'NEAREST',
+        TEXTURE_WRAP_S: 'CLAMP_TO_EDGE',
+        TEXTURE_WRAP_T: 'CLAMP_TO_EDGE',
+    });
+    fsr.render();
+}

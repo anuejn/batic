@@ -4,137 +4,121 @@
  */
 "use strict";
 
-let loaders = require('./loaders');
-let webgl_util = require('./webgl_utils');
+/*
+const shader_preprocessor = require('./shader_preprocessor');
 
-const size = {x: 4096, y: 3072};
-
-
-main();
-async function main() {
-    const shader = await loaders.loadText("examples/shaders/black_white.glsl");
-    const raw_image = await loaders.loadRaw16("examples/images/human.raw16");
+const panzoom = require('../lib/panzoom/panzoom.min.js');
+const ace = require('../lib/ace/lib/ace/ace');
 
 
-    window.code.setValue(shader, -1);
+const initialModel = {
+    globalError: null,
 
-    let redo = () => {
-        generate_inputs(window.code.getSession().getValue());
-        setup(window.code.getSession().getValue(), raw_image, size)
-    };
-    window.code.getSession().on('change', () => setTimeout(redo, 10)); // the setTimeout is for not slowing the editor down or throwing errors from the event handler
+    fragment_shader: null,
+    compiler_errors: '',
 
-    document.getElementById("loading").style.display = "none";
-    redo();
-}
+    inputs: {},
+};
 
-function generate_inputs(src) {
-    let inputs = "";
-    let input_values = get_inputs_values();
-    src.replace(/uniform float (.*);/g, (_, x) => {inputs += `<label>${x} <input type="range" min="0" max="1" value="0.5" step="0.000001" class="slider" id="slider_${x}"></label>\n`});
-    document.querySelector("#controls").innerHTML = inputs;
-    Object.keys(input_values).forEach(name => {
-        document.getElementById("input_" + name).value = input_values[name];
-    });
-    Array.from(document.getElementsByTagName("input")).forEach(s => s.oninput = render)
-}
-
-function get_inputs_values() {
-    let input_values = {};
-    Array.from(document.getElementsByTagName("input")).forEach(slider => {
-        input_values[slider.id.replace("input_", "")] = parseFloat(slider.value);
-    });
-    return input_values;
-}
-
-
-// the rendering section
-let gl, program;
-function setup(fragment_shader_code, raw_image, canvas_size) {
-    // initialize webgl
-    let canvas = document.getElementById("canvas");
-    gl = canvas.getContext('webgl2');
-
-    // define the code for the examples
-    let vertex_shader_code =
-        `#version 300 es
-        in vec2 position;
-        
-        void main() {
-            gl_Position = vec4( position.x, position.y, 1.0, 1.0 );
-        }`;
-
-
-    // compile the examples & the program
-    let vs = webgl_util.createShader(gl, gl.VERTEX_SHADER, vertex_shader_code);
-    let fs = webgl_util.createShader(gl, gl.FRAGMENT_SHADER, fragment_shader_code);
-
-    program = webgl_util.createProgram(gl, vs, fs);
-    if(!program) {
-        return;
+async function update(model, e) {
+    if(e === 'initial') {
+        return 'load_shader';
+    } else if (e === 'load_shader') {
+        model.fragment_shader = await loaders.loadText("examples/shaders/black_white.glsl");
+        return 'load_resources';
+    } else if (e === 'load_resources') {
+        model.inputs['raw_image'] = await loaders.loadRaw16("examples/images/human.raw16");
+    } else if (typeof e === error) {
+        model.globalError = e.me
     }
-
-
-    // draw the base square
-    var positionAttributeLocation = gl.getAttribLocation(program, "position");
-    var positionBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    var positions = [
-        -1, -1,
-        -1, 1,
-        1, 1,
-        -1, -1,
-        1, 1,
-        1, -1
-    ];
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
-
-    gl.enableVertexAttribArray(positionAttributeLocation);
-    // Bind the position buffer.
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
-    // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-    var buffer_size = 2;          // 2 components per iteration
-    var type = gl.FLOAT;   // the data is 32bit floats
-    var normalize = false; // don't normalize the data
-    var stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
-    var offset = 0;        // start at the beginning of the buffer
-    gl.vertexAttribPointer(positionAttributeLocation, buffer_size, type, normalize, stride, offset);
-
-
-
-    gl.viewport(0, 0, size.x, size.y);
-    gl.canvas.width = size.x;
-    gl.canvas.height = size.y;
-
-
-
-    var texture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R32F, size.x, size.y, 0, gl.RED, gl.FLOAT, raw_image);
-
-    render();
 }
 
-
-function render() {
-    // set up the params
-    let vals = get_inputs_values();
-    Object.keys(vals).forEach(val_name => {
-        gl.useProgram(program);
-        let loc = gl.getUniformLocation(program, val_name);
-        gl.uniform1f(loc, vals[val_name]);
-    });
-
-
-    // really render
-    gl.clearColor(0, 0, 0, 0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.useProgram(program);
-
-    gl.drawArrays(gl.TRIANGLES, 0, 6);
+async function view(model) {
+    if(!model.fragment_shader) {
+        return `
+            <div id="loading">
+                LOADING SHADER...
+            </div>
+        `;
+    } else if (Object.keys(shader_preprocessor.getRequiredInputs(model.fragment_shader)).filter(x => !model.inputs[x]).length > 0) {
+        return `
+            <div id="loading">
+                LOADING RESOURCES...
+            </div>
+        `;
+    } else {
+        return `
+            <main>
+                <canvas id="canvas"></canvas>
+            </main>
+        
+            <aside>
+                <h1>### BATIC </h1>
+                <a href="https://github.com/anuejn/batic" target="_blank" style="position: absolute; right: 20px; top: 40px;">(WHATS THIS?!)</a>
+        
+                <div id="controls">
+                    ${generateControls(model.fragment_shader)}
+                </div>
+                <div id="code"></div>
+                <pre id="errors">
+                    ${model.compiler_errors}
+                </pre>
+            </aside>
+        `;
+    }
 }
+
+function generateControls(fragment_shader) {
+    const needed_inputs = shader_preprocessor.getRequiredInputs(fragment_shader);
+    return Object.keys(needed_inputs).map(name => {
+        try {
+            let input = inputs.filter(i => i.type.indexOf(needed_inputs[name]) !== -1)[0];
+            console.log(input.render(name));
+            return input.render(name);
+        } catch (e) {
+            return `<div class="error">no input for uniform ${name} with type ${needed_inputs[name]}`
+        }
+    }).reduce((a, b) => a + b);
+}
+
+async function lower(rendered) {
+    const container = document.querySelector("body");
+    if(rendered !== container.innerHTML) {
+        // set the html
+        container.innerHTML = rendered;
+
+
+        // setup the code editor
+        window.code = ace.edit("code");
+        window.code.session.setMode("ace/mode/glsl");
+        ace.require("ace/ext/language_tools");
+        window.code.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: true
+        });
+
+        // setup panzoom
+        let scene = document.getElementById("canvas");
+        panzoom(scene, {
+            smoothScroll: true
+        })
+
+    }
+}
+*/
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+
+const App = () => (
+    <div className="App">
+        <h1 className="App-Title">Hello Parcel x React</h1>
+    </div>
+);
+
+
+window.addEventListener('load', () => {
+    ReactDOM.render(<App />, document.getElementById('react'));
+});
