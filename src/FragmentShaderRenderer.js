@@ -56,14 +56,20 @@ export default class FragmentShaderRenderer extends React.Component {
 
 
         // finally do the normal rendering steps
-        this.componentDidUpdate(this.props);
+        this.componentDidUpdate();
     }
 
-    componentDidUpdate(prevProps) {
+    shouldComponentUpdate(nextProps, nextState) {
+        let update =  nextProps.shader !== this.fragment_shader_code_try;
+        this.fragment_shader_code_try = this.props.shader;
+        return update;
+    }
+
+    componentDidUpdate() {
         let gl = this.gl;
 
         // update the fragmentshader if needed
-        this._setShader('FRAGMENT_SHADER', prevProps.shader);
+        this._setShader('FRAGMENT_SHADER', this.props.shader);
 
 
         // set the canvas and the viewport size
@@ -83,6 +89,7 @@ export default class FragmentShaderRenderer extends React.Component {
         let gl = this.gl;
         let shaderCodeRef = type.toLowerCase() + '_code';
         let shaderRef = type.toLowerCase();
+
         if (this[shaderCodeRef] !== shaderCode) {
             try {
                 let newShader = this._createShader(type, shaderCode);
@@ -96,6 +103,7 @@ export default class FragmentShaderRenderer extends React.Component {
                 gl.linkProgram(this.program);
 
                 this[shaderCodeRef] = shaderCode;
+                this.compilerCallback('');
             } catch (compilerError) {
                 this.compilerCallback(compilerError)
             }
