@@ -26,6 +26,8 @@ export default class GlslEditor extends React.Component {
             mode="glsl"
             theme="github"
             name="code"
+            width="100%"
+
             setOptions={{
                 enableBasicAutocompletion: true,
                 enableLiveAutocompletion: true,

@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+"@pleasetrythisathome/react.animate@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@pleasetrythisathome/react.animate/-/react.animate-0.0.4.tgz#47977b79c5cfef4199261ac24e9bd0be9bf6e887"
+  dependencies:
+    ease-component "^1.0.0"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -1179,6 +1185,10 @@ center-align@^0.1.1:
     align-text "^0.1.3"
     lazy-cache "^1.0.3"
 
+centered-pan-zoom@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/centered-pan-zoom/-/centered-pan-zoom-2.0.0.tgz#45c27d137fcdd1bdf26054a824c75800b88be14d"
+
 chalk@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-1.1.3.tgz#a8115c55e4a702fe4d150abd3872822a7e09fc98"
@@ -1234,6 +1244,10 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
+classnames@^2.2.0:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
+
 cliui@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/cliui/-/cliui-2.1.0.tgz#4b475760ff80264c762c3a1719032e91c7fea0d1"
@@ -1245,6 +1259,10 @@ cliui@^2.1.0:
 clone@^1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.3.tgz#298d7e2231660f40c003c2ed3140decf3f53085f"
+
+clone@^2.1.0:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/clone/-/clone-2.1.1.tgz#d217d1e961118e3ac9a4b8bba3285553bf647cdb"
 
 co@^4.6.0:
   version "4.6.0"
@@ -1406,6 +1424,14 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+create-react-class@^15.5.x, create-react-class@^15.6.2:
+  version "15.6.3"
+  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
 
 cross-spawn@^5.1.0:
   version "5.1.0"
@@ -1649,6 +1675,10 @@ duplexify@^3.5.0, duplexify@^3.5.3:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
+ease-component@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ease-component/-/ease-component-1.0.0.tgz#b375726db0b5b04595b77440396fec7daa5d77c9"
+
 easy-table@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/easy-table/-/easy-table-1.0.0.tgz#29db2d0855d36316e4382e5a3d85d9cb5fc93216"
@@ -1839,7 +1869,7 @@ extsprintf@^1.2.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
 
-fbjs@^0.8.16:
+fbjs@^0.8.16, fbjs@^0.8.9:
   version "0.8.16"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.16.tgz#5e67432f550dc41b572bf55847b8aca64e5337db"
   dependencies:
@@ -1850,6 +1880,17 @@ fbjs@^0.8.16:
     promise "^7.1.1"
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
+
+fbp-graph@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/fbp-graph/-/fbp-graph-0.1.0.tgz#f206e5f70d7b3f2f1de1b35cbb545889cb0bd11a"
+  dependencies:
+    clone "^2.1.0"
+    fbp "^1.5.0"
+
+fbp@^1.5.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/fbp/-/fbp-1.7.0.tgz#71937acfce4dcba29a7c534a69c2fd82d0760714"
 
 filename-regex@^2.0.0:
   version "2.0.1"
@@ -1877,6 +1918,10 @@ fill-range@^4.0.0:
 flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
+
+font-awesome@^4.6.3:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
 
 for-in@^1.0.1, for-in@^1.0.2:
   version "1.0.2"
@@ -2058,6 +2103,10 @@ gunzip-maybe@1.2.1:
     peek-stream "^1.1.0"
     pumpify "^1.3.3"
     through2 "^0.4.1"
+
+hammerjs@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
 
 har-schema@^1.0.5:
   version "1.0.5"
@@ -2593,6 +2642,16 @@ klaw@^1.0.0:
   resolved "https://registry.yarnpkg.com/klaw/-/klaw-1.3.1.tgz#4088433b46b3b1ba259d78785d8e96f73ba02439"
   optionalDependencies:
     graceful-fs "^4.1.9"
+
+klayjs-noflo@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/klayjs-noflo/-/klayjs-noflo-0.3.1.tgz#092fe55cc289805593503bde5001b6a5eddb495f"
+  dependencies:
+    klayjs "^0.2.1"
+
+klayjs@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/klayjs/-/klayjs-0.2.1.tgz#acb0ef0a607c0bceab02e8501a42b75b31506720"
 
 lazy-cache@^1.0.3:
   version "1.0.4"
@@ -3447,7 +3506,7 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@^15.5.8, prop-types@^15.6.0:
+prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
   dependencies:
@@ -3568,6 +3627,10 @@ react-ace@^5.9.0:
     lodash.isequal "^4.1.1"
     prop-types "^15.5.8"
 
+react-dom@^0.14.0:
+  version "0.14.9"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-0.14.9.tgz#05064a3dcf0fb1880a3b2bfc9d58c55d8d9f6293"
+
 react-dom@^16.2.0:
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.2.0.tgz#69003178601c0ca19b709b33a83369fe6124c044"
@@ -3576,6 +3639,46 @@ react-dom@^16.2.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.0"
+
+react-draggable@^1.1.3:
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/react-draggable/-/react-draggable-1.3.7.tgz#729bde4bd1e717c395b228c775e837695d50c2b2"
+  dependencies:
+    classnames "^2.2.0"
+
+react-es6-component@*:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/react-es6-component/-/react-es6-component-0.0.4.tgz#1e5f8bea1decc43d961d0caf4a77f06fbb09e9e6"
+  dependencies:
+    underscore "1.8.3"
+
+react-node-graph@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-node-graph/-/react-node-graph-1.1.1.tgz#5c4f90cbc885a5a51c29cf0541ad4ca095d8f7da"
+  dependencies:
+    react-dom "^0.14.0"
+    react-draggable "^1.1.3"
+    react-onclickoutside "^5.11.1"
+
+react-onclickoutside@^5.11.1:
+  version "5.11.1"
+  resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-5.11.1.tgz#00314e52567cf55faba94cabbacd119619070623"
+  dependencies:
+    create-react-class "^15.5.x"
+
+react-pan-zoom-element@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-pan-zoom-element/-/react-pan-zoom-element-2.0.1.tgz#c140f60000f1428a44d5834de93e2d1ea64a5713"
+  dependencies:
+    centered-pan-zoom "2.0.0"
+    react-es6-component "*"
+
+react-svg-pan-zoom@^2.15.1:
+  version "2.15.1"
+  resolved "https://registry.yarnpkg.com/react-svg-pan-zoom/-/react-svg-pan-zoom-2.15.1.tgz#31ead4ead3b468a84d6a9bb936e6baf5c9b0aab1"
+  dependencies:
+    prop-types "^15.5.10"
+    transformation-matrix "^1.7.0"
 
 react@^0.13.2:
   version "0.13.3"
@@ -4152,6 +4255,19 @@ tar@2.2.1, tar@^2.2.1:
     fstream "^1.0.2"
     inherits "2"
 
+the-graph@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/the-graph/-/the-graph-0.11.1.tgz#111cdc367b17d8b90f8d39c9191a01c6b607a317"
+  dependencies:
+    "@pleasetrythisathome/react.animate" "0.0.4"
+    create-react-class "^15.6.2"
+    ease-component "^1.0.0"
+    fbp-graph "^0.1.0"
+    font-awesome "^4.6.3"
+    hammerjs "^2.0.8"
+    klayjs-noflo "^0.3.1"
+    tv4 "^1.3.0"
+
 thenify-all@^1.0.0, thenify-all@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/thenify-all/-/thenify-all-1.6.0.tgz#1a1918d402d8fc3f98fbf234db0bcc8cc10e9726"
@@ -4235,6 +4351,10 @@ tough-cookie@~2.3.0:
   dependencies:
     punycode "^1.4.1"
 
+transformation-matrix@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/transformation-matrix/-/transformation-matrix-1.7.0.tgz#6b0f1eba71d0befd20e4749835ed02a1ccc70e6d"
+
 trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
@@ -4254,6 +4374,10 @@ tunnel-agent@^0.6.0:
   resolved "https://registry.yarnpkg.com/tunnel-agent/-/tunnel-agent-0.6.0.tgz#27a5dea06b36b04a0a9966774b290868f0fc40fd"
   dependencies:
     safe-buffer "^5.0.1"
+
+tv4@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/tv4/-/tv4-1.3.0.tgz#d020c846fadd50c855abb25ebaecc68fc10f7963"
 
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
@@ -4290,6 +4414,10 @@ uid-number@^0.0.6:
 ultron@~1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.1.1.tgz#9fe1536a10a664a65266a1e3ccf85fd36302bc9c"
+
+underscore@1.8.3:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
 
 union-value@^1.0.0:
   version "1.0.0"
