@@ -7,13 +7,13 @@
 let loaders = require('./loaders');
 let webgl_util = require('./webgl_utils');
 
-const size = {x: 4096, y: 3072};
+let size = {x: 4096, y: 3072};
 
 
 main();
 async function main() {
-    const shader = await loaders.loadText("examples/shaders/black_white.glsl");
-    const raw_image = await loaders.loadRaw16("examples/images/human.raw16");
+    const shader = await loaders.loadText("examples/shaders/resolution_loss.glsl");
+    let raw_image = await loaders.loadRaw16("examples/images/human.raw16");
 
 
     window.code.setValue(shader, -1);
@@ -23,6 +23,42 @@ async function main() {
         setup(window.code.getSession().getValue(), raw_image, size)
     };
     window.code.getSession().on('change', () => setTimeout(redo, 10)); // the setTimeout is for not slowing the editor down or throwing errors from the event handler
+
+    const fileInput = document.querySelector('#file');
+    fileInput.addEventListener('change', () => {
+        const file = fileInput.files[0];
+        if(file.name.endsWith('16')) { 
+            // file probably is raw16
+            const fr = new FileReader();
+            fr.onload = () => {
+                const max_16b = Math.pow(2, 16);
+                let int16 = new Uint16Array(fr.result, 0);
+
+                size.x = +document.querySelector('#width').value;
+                size.y = (Math.floor(file.size / 2 / size.x));
+
+                let out = Float32Array.from(int16, x => x / max_16b);
+                raw_image = out;
+                redo();
+            };
+            fr.readAsArrayBuffer(file);
+        } else {
+            // file is probably raw8
+            const fr = new FileReader();
+            fr.onload = () => {
+                const max_8b = Math.pow(2, 8);
+                let int8 = new Uint8Array(fr.result, 0);
+
+                size.x = +document.querySelector('#width').value;
+                size.y = (Math.floor(file.size / size.x));
+
+                let out = Float32Array.from(int8, x => x / max_8b);
+                raw_image = out;
+                redo();
+            };
+            fr.readAsArrayBuffer(file);
+        }
+    });
 
     document.getElementById("loading").style.display = "none";
     redo();
@@ -41,7 +77,7 @@ function generate_inputs(src) {
 
 function get_inputs_values() {
     let input_values = {};
-    Array.from(document.getElementsByTagName("input")).forEach(slider => {
+    Array.from(document.getElementsByTagName("input")).filter(e => e.id.startsWith("input_")).forEach(slider => {
         input_values[slider.id.replace("input_", "")] = parseFloat(slider.value);
     });
     return input_values;
